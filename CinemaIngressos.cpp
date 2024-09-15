@@ -218,3 +218,22 @@ struct salas{
 			}
 		}while(confirmar != 0);
 	}
+
+	void buscaCPF(struct cadastroF cf[], int cont){
+
+		char cpf[12];
+		int i;
+
+		printf("\nInforme o CPF para busca: ");
+		gets(cpf);
+		varrer();
+
+		for(i = 0; i < cont; i++){
+			if(strcmp(cf[i].cpf, cpf) == 0){
+				limpar();
+				printfCliente(cf, i);
+				editarCadastro(cf, i, cont);
+				i = cont;
+			}
+		}
+	}
