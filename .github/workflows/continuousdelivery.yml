@@ -18,6 +18,16 @@ jobs:
       with:
         name: my-test-zip.zip
         path: |
-          '**.cpp'
+          CinemaIngressos.cpp
           '**.lib'
           README.nd
+
+  deployment:
+    runs-on: ubuntu-latest
+    needs: deliver
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: my-artifact
+      - name: Display structure of downloaded files
+        run: ls -R
