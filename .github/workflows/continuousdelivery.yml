@@ -28,6 +28,6 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: my-artifact
+          name: my-test-zip.zip
       - name: Display structure of downloaded files
         run: ls -R
