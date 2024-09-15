@@ -121,4 +121,100 @@ struct salas{
 		}
 		return j;
 	}
-	
+
+	void editarCadastro(struct cadastroF cf[], int i, int contF){ // recebe a struct e a posição do cadastro
+		int opEditar, confirmar, idade, verificaCPF = 0;
+		char nome[100], cpf[12], telefone[16];
+		do{
+			limpar();
+			printfCliente(cf, i);
+			menuOpcoesEdicao();
+			scanf("%i", &opEditar);
+			varrer();
+			switch(opEditar){
+				case 0:
+					confirmar = 0;
+					saindo();
+				break;
+
+				case 1:
+					confirmar = confirmarEdicao();
+					if(confirmar == 1){
+						if(cf[i].status == 1){
+							cf[i].status = 0;
+						}
+
+						else if(cf[i].status == 0){
+							cf[i].status = 1;
+						}
+					}
+				break;
+
+				case 2:
+
+					printf("\nInforme o novo nome: ");
+					gets(nome);
+					varrer();
+
+					confirmar = confirmarEdicao();
+
+					if(confirmar == 1){
+						strcpy(cf[i].nome, nome);
+					}
+
+				break;
+
+				case 3:
+					do{
+						if(verificaCPF == 1){
+							printf("\n\nCPF já cadastrado. Tente Novamente!\n\n");
+						}
+
+						printf("\nInforme o novo cpf: ");
+						varrer();
+						gets(cpf);
+						varrer();
+
+			  			verificaCPF = verificaCadastroCPF(cf, cpf , contF);
+
+					}while(verificaCPF == 1);
+
+					if(verificaCPF == 0){
+						confirmar = confirmarEdicao();
+						if(confirmar == 1){
+							strcpy(cf[i].cpf, cpf);
+						}
+					}
+
+				break;
+
+				case 4:
+
+					printf("\nInforme o novo telefone: ");
+					gets(telefone);
+					varrer();
+
+					confirmar = confirmarEdicao();
+
+					if(confirmar == 1){
+						strcpy(cf[i].telefone, telefone);
+					}
+
+				break;
+
+				case 5:
+
+					printf("\nInforme a nova idade: ");
+					scanf("%d", &idade);
+					varrer();
+
+					confirmar = confirmarEdicao();
+
+					if(confirmar == 1){
+						cf[i].idade = idade;
+					}
+
+				break;
+			}
+		}while(confirmar != 0);
+	}
