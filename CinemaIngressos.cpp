@@ -237,3 +237,147 @@ struct salas{
 			}
 		}
 	}
+
+	int buscaConfirmaCadastro(struct cadastroF cf[], int cont, char cpf[12]){
+
+		int resposta = 0, i, existe = -1;
+		char reativacao;
+
+		for(i = 0; i < cont; i++){
+			if(strcmp(cf[i].cpf, cpf) == 0){
+				existe = 1;
+				if(cf[i].status == 1){
+					cf[i].pontos = cf[i].pontos + 200;
+				}else{
+					printf("\n\tConta encontrada está atualmente desativada, deseja reativá-la? S | N\n\n\t");
+					scanf("%c", &reativacao);
+					varrer();
+
+					reativacao = toupper(reativacao);
+
+					if(reativacao == 'S'){
+						cf[i].status = 1;
+						cf[i].pontos = cf[i].pontos + 200;
+					}
+					printf("\nObrigado por comprar seu ingressos na MBM CINEMAX!\n");
+					Sleep(1500);
+				}
+
+				i = cont;
+			}
+		}
+		return existe;
+	}
+
+	void mostrarTodasCadeiras(struct salas s[]){
+		for(int i = 0; i < 4; i++){
+			printf("\n\nSala %d \n\n", i+1);
+			for(int l = 0; l < 5; l++){
+				printf("\n\t   ._______________________________________.");
+				printf("\n\t   |   |   |   |   |   |   |   |   |   |   |\n");
+				printf("\t%d  | ", l+1);
+				for(int c = 0; c < 10; c++){
+					printf("%c | ", s[i].matrix[l][c]);
+				}
+			}
+		}
+		pausar();
+	}
+	void mostrarSessao(struct salas s[], int sessao){
+			printf("\n\n\n\t    ");
+			for(int j = 0; j < 10; j++){
+					printf(" %d  ", j+1);
+				}
+			for(int l = 0; l < 5; l++){
+				printf("\n\t   ._______________________________________.");
+				printf("\n\t   |   |   |   |   |   |   |   |   |   |   |\n");
+				printf("\t%d  | ", l+1);
+				for(int c = 0; c < 10; c++){
+					printf("%c | ", s[sessao].matrix[l][c]);
+				}
+			}
+			printf("\n\n\n\t\t\t     TELA");
+			printf("\n         \\___________________________________________/");
+
+	}
+
+	void compraCadeiras(struct salas s[], int sessao,int qntdIngressos){
+
+		int linha, coluna, reserva, l, c, verificaCadeira;
+
+		reserva = qntdIngressos;
+
+		if(reserva > 0){
+			do{
+				system("cls");
+				sessaoEscolhida(sessao+1);
+				mostrarSessao(s, sessao);
+
+				printf("\n\nInforme a linha: ");
+				varrer();
+				scanf("%d", &linha);
+				varrer();
+				printf("\nInforme a coluna: ");
+				scanf("%d", &coluna);
+				varrer();
+				if(s[sessao].matrix[linha-1][coluna-1] == ' '){
+					s[sessao].matrix[linha-1][coluna-1] = 'X';
+					verificaCadeira = 1;
+					reserva = reserva - 1;
+				}else{
+					verificaCadeira = 0;
+					printf("\nCadeira já ocupada!\n");
+					Sleep(800);
+				}
+		}while(verificaCadeira == 0 || reserva > 0);
+		system("cls");
+		mostrarSessao(s, sessao);
+	}
+
+
+	}
+
+	////////////////////// FUNÇOES ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+int main(){
+
+    setlocale(LC_ALL, "Portuguese");
+    SetConsoleOutputCP (28591); // leitura da tabela Latina (escrita)
+    SetConsoleCP(28591);//Acentuação para funções (leitura) funções na bib windows
+
+    ////////////////////// VARIAVEIS ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    int opEdicao;
+    // cinema / ingressos
+    int qntdIngressos;
+	char confirmar;
+
+	// fidelidade
+	int contFidelidade;
+	struct cadastroF cf[500];
+	char novoCadastro;
+
+	struct salas s[4];
+
+	// busca
+	int opBusca;
+	char cpfBusca[12];
+
+    // vars escolhas / switch
+    int escolhaMenu, escolhaSessao;
+    // vars de verificação
+    int verificaSessao, verificaBusca, verificaCPF;
+
+    char confirmarCadastro;
+    ////////////////////// VARIAVEIS ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	int i;
+
+    for(i = 0; i < 4; i++){
+    	s[i].salaCadeiras = 50;
+		for(int l = 0; l < 5; l++){
+			for(int c = 0; c < 10; c++){
+				s[i].matrix[l][c] = ' ';
+			}
+		}
+	}
