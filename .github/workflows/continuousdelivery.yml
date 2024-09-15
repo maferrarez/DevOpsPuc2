@@ -20,7 +20,7 @@ jobs:
         path: |
           CinemaIngressos.cpp
           '**.lib'
-          README.nd
+          README.md
 
   deployment:
     runs-on: ubuntu-latest
