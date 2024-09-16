@@ -3,9 +3,8 @@
 #include<string.h>
 #include<math.h>
 #include<locale.h>
-#include<conio.h>
+#include<curses.h>
 #include<time.h>
-#include <windows.h>
 #include<ctype.h>
 #include "MyBibTrab.h"
 
