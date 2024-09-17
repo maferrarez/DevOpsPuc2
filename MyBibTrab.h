@@ -3,19 +3,24 @@
 #include<string.h>
 #include<math.h>
 #include<locale.h>
-#include<conio.h>
+#include<curses.h>
 #include<time.h>
-#include <windows.h>
+#include<ctype.h>
+#include<unistd.h>
+#include<iostream>
+#include<array>
+#include<cstdio>
+#include<cstring>
 
 void saindo(){
 	printf("\nSaindo");
-	Sleep(300);
+	sleep(300);
 	printf(".");
-	Sleep(300);
+	sleep(300);
 	printf(".");
-	Sleep(300);
+	sleep(300);
 	printf(".");
-	Sleep(300);
+	sleep(300);
 }
 
 void linha(){
@@ -36,7 +41,7 @@ void pausar(){
 
 void printOpInva(){
 	printf("\n\tOpção inválida! Tente novamente");
-	Sleep(1000);
+	sleep(1000);
 	limpar();
 }
 

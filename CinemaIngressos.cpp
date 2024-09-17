@@ -6,7 +6,16 @@
 #include<curses.h>
 #include<time.h>
 #include<ctype.h>
+#include<unistd.h>
+#include<iostream>
+#include<array>
+#include<cstdio>
+#include<cstring>
+#include<thread>
 #include "MyBibTrab.h"
+using namespace std;
+
+
 
 struct cadastroF{
 	char nome[100], cpf[12], telefone[16];
@@ -39,13 +48,13 @@ struct salas{
 		cf[contF].pontos = 0;
 		varrer();
 		printf("\n\tInforme o nome: ");
-		gets(cf[contF].nome);
+		cin >> cf[contF].nome;
 		varrer();		
 		
 		do{
 			
 			printf("\n\tInforme o CPF: ");
-			gets(cf[contF].cpf);
+			cin >> cf[contF].cpf;
 			varrer();
 			
   			verificaCPF = verificaCadastroCPF(cf, cf[contF].cpf ,contF);
@@ -53,7 +62,7 @@ struct salas{
 		}while(verificaCPF == 1);
 		
 		printf("\n\tInforme o telefone: ");
-		gets(cf[contF].telefone);
+		cin >> cf[contF].telefone;
 		varrer();
 		
 		printf("\n\tInforme a idade: ");
@@ -152,7 +161,7 @@ struct salas{
 				case 2:
 
 					printf("\nInforme o novo nome: ");
-					gets(nome);
+					cin >>nome;
 					varrer();
 
 					confirmar = confirmarEdicao();
@@ -171,7 +180,7 @@ struct salas{
 
 						printf("\nInforme o novo cpf: ");
 						varrer();
-						gets(cpf);
+						cin >> cpf;
 						varrer();
 
 			  			verificaCPF = verificaCadastroCPF(cf, cpf , contF);
@@ -190,7 +199,7 @@ struct salas{
 				case 4:
 
 					printf("\nInforme o novo telefone: ");
-					gets(telefone);
+					cin >> telefone;
 					varrer();
 
 					confirmar = confirmarEdicao();
@@ -224,7 +233,7 @@ struct salas{
 		int i;
 
 		printf("\nInforme o CPF para busca: ");
-		gets(cpf);
+		cin >> cpf;
 		varrer();
 
 		for(i = 0; i < cont; i++){
@@ -259,7 +268,7 @@ struct salas{
 						cf[i].pontos = cf[i].pontos + 200;
 					}
 					printf("\nObrigado por comprar seu ingressos na MBM CINEMAX!\n");
-					Sleep(1500);
+					sleep(1500);
 				}
 
 				i = cont;
@@ -280,7 +289,7 @@ struct salas{
 				}
 			}
 		}
-		pausar();
+		//pausar();
 	}
 	void mostrarSessao(struct salas s[], int sessao){
 			printf("\n\n\n\t    ");
@@ -326,7 +335,7 @@ struct salas{
 				}else{
 					verificaCadeira = 0;
 					printf("\nCadeira já ocupada!\n");
-					Sleep(800);
+					sleep(800);
 				}
 		}while(verificaCadeira == 0 || reserva > 0);
 		system("cls");
@@ -341,8 +350,8 @@ struct salas{
 int main(){
 
     setlocale(LC_ALL, "Portuguese");
-    SetConsoleOutputCP (28591); // leitura da tabela Latina (escrita)
-    SetConsoleCP(28591);//Acentuação para funções (leitura) funções na bib windows
+    //SetConsoleOutputCP (28591); // leitura da tabela Latina (escrita)
+    //SetConsoleCP(28591);//Acentuação para funções (leitura) funções na bib windows
 
     ////////////////////// VARIAVEIS ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -380,3 +389,243 @@ int main(){
 			}
 		}
 	}
+
+
+    strcpy(cf[contFidelidade].nome, "Bruno");
+	strcpy(cf[contFidelidade].cpf, "11259285901");
+	strcpy(cf[contFidelidade].telefone, "(41)98846-6530");
+	cf[contFidelidade].idade = 22;
+	cf[contFidelidade].id = 1;
+	cf[contFidelidade].status = 0;
+	cf[contFidelidade].pontos = 0;
+	contFidelidade = 1;
+
+	strcpy(cf[contFidelidade].nome, "Marina Super Muito Tonga");
+	strcpy(cf[contFidelidade].cpf, "123456789");
+	strcpy(cf[contFidelidade].telefone, "(41)98846-6530");
+	cf[contFidelidade].idade = 22;
+	cf[contFidelidade].id = 2;
+	cf[contFidelidade].status = 1;
+	cf[contFidelidade].pontos = 0;
+	contFidelidade = 2;
+
+	strcpy(cf[contFidelidade].nome, "Mariana");
+	strcpy(cf[contFidelidade].cpf, "1234512345");
+	strcpy(cf[contFidelidade].telefone, "(41)98846-6530");
+	cf[contFidelidade].idade = 22;
+	cf[contFidelidade].id = 3;
+	cf[contFidelidade].status = 1;
+	cf[contFidelidade].pontos = 0;
+	contFidelidade = 3;
+
+    do{
+    	limpar();
+		// printar o menu principal
+	    menuPrincipal();
+	    // receber a resposta
+	    scanf("%d", &escolhaMenu);
+	    varrer(); // limpa o lixo do teclado
+	    limpar(); // limpa a tela
+
+	    switch(escolhaMenu){
+	    	case 0:
+	    		// case 0 apenas para evitar que o switch caia no default
+	    	break;
+
+	    	case 1:
+	    		// Case 1 - Comprar ingresso
+	    		// usuario devera escolher uma sessao que exista, caso contrario ele entra em um looping
+	    		// enquanto verificaSessao for == 0, programa não continua, entra no loop de escolher a sessao
+	    		do{
+	    			verificaSessao = -1;
+					printf("\n\tCOMPRA DE INGRESSOS");
+
+					menuFilmes();
+					printf("\n\n\tSessão escolhida: ");
+					scanf("%d", &escolhaSessao);
+					varrer();
+					if(escolhaSessao < 0){
+						verificaSessao = 0;
+					}else if(escolhaSessao == 0){
+						verificaSessao = -1;
+						saindo();
+					}else if(escolhaSessao > 0){
+						// printar e receber o numero da sessao como retorno/ caso informe um valor invalido, retorno = 0
+						verificaSessao = sessaoEscolhida(escolhaSessao);
+					}
+				}while( verificaSessao == 0);
+
+				// verificar se há cadeiras na sessao-1(posição no vetor) escolhida
+				if(s[verificaSessao-1].salaCadeiras > 0){
+					do{
+						limpar();
+						// printar na tela a sessao escolhida
+						sessaoEscolhida(verificaSessao);
+						printf(" - Ingressos Restantes: %d", s[verificaSessao-1].salaCadeiras);
+
+						mostrarSessao(s, verificaSessao - 1);
+
+						printf("\n\n\tInforme a quantidade de ingressos?\n\t");
+						scanf("%d", &qntdIngressos);
+						varrer();
+
+						// caso seja informado um valor negativo, mostra erro.
+						if(qntdIngressos < 0){
+							printf("\n\tFavor informar um valor valido!\n");
+							sleep(800);
+						}else if(qntdIngressos == 0){
+
+							saindo();
+
+						}else if(qntdIngressos > 0){
+							// verificar se a quantidade de cadeiras restantes - qntd de ingressos informados, sao maiores ou igual a 0
+							// ex: 4 cadeiras restantes - 6 ingressos a serem comprados = nao entra no if, pois a sessao nao possui 6 cadeiras restantes
+							if(s[verificaSessao-1].salaCadeiras - qntdIngressos >= 0){
+								//funcao para comprar as cadeiras desejadas
+								compraCadeiras(s, verificaSessao-1, qntdIngressos);
+								// decremento nas cadeiras da sessao
+								s[verificaSessao-1].salaCadeiras = s[verificaSessao-1].salaCadeiras - qntdIngressos;
+
+								sessaoEscolhida(verificaSessao);
+								mostrarSessao(s, verificaSessao - 1);
+
+								printf("\n\n\n\tPossui cadastro fidelidade? S | N\n\n\t");
+								varrer();
+								scanf("%c", &confirmarCadastro);
+								//varrer;
+
+								confirmarCadastro = toupper(confirmarCadastro);
+
+								int vefificaBuscaCPF = 0;
+
+								if(confirmarCadastro == 'S'){
+
+									do{
+										if(vefificaBuscaCPF == -1){
+											printf("\nCPF não encontrado. Tente novamente.\n\n");
+										}
+
+										printf("\n\tInforme o CPF: ");
+										varrer();
+										cin >> cpfBusca;
+										varrer();
+
+										vefificaBuscaCPF = buscaConfirmaCadastro(cf, contFidelidade, cpfBusca);
+
+									}while(vefificaBuscaCPF <= 0);
+
+								}else{
+									printf("\n\n\tDeseja efetuar um novo cadastro? S | N\n\t");
+									varrer();
+									scanf("%c", &novoCadastro);
+									varrer();
+									novoCadastro = toupper(novoCadastro);
+									if(novoCadastro == 'S'){
+										contFidelidade++;
+										int posicao = cadastroFidelidade(cf, contFidelidade);
+										cf[posicao].pontos = cf[posicao].pontos + 200;
+										limpar();
+									}
+
+								}
+
+							}else{
+								qntdIngressos = -1;
+								printf("Quantidade de ingressos indisponivel. Restam apenas %d", s[verificaSessao-1].salaCadeiras);
+								//pausar();
+							}
+						}
+					// verificar, caso entre com numero negativo ou entrar com um numero maior que o numero de cadeiras total da sessao, entra em um loop
+					}while(qntdIngressos < 0);
+				}
+			break;
+
+			case 2:
+				limpar();
+				printf("\nCadastro Cliente Fidelidade!\n");
+
+				// sempre ir aumentando o tamanho do vetor dinamicamente
+				contFidelidade = contFidelidade + 1;
+
+				// chama a funcao para cadastrar, passa cf(struct) e contFidelidade(tamanho do vetor)
+				cadastroFidelidade(cf, contFidelidade);
+
+			break;
+
+			// listar todos os cadastros
+			case 3:
+
+				if(contFidelidade > 0){
+
+					limpar();
+					printf("\n\tLista de clientes cadastrados\n\n");
+					printf("Total de clientes: %d", contFidelidade);
+
+					listarClientes(cf, contFidelidade);
+					//pausar();
+				}
+			break;
+
+			case 4:
+				do{
+					limpar();
+					printf("\n\tBUSCA / EDIÇÃO\n\n");
+					menuBusca();
+					printf("Informe a opção de busca: ");
+					scanf("%d", &opBusca);
+					varrer();
+
+					switch(opBusca){
+						case 0:
+							saindo();
+						break;
+						case 1:
+							printf("\tCADASTROS ATIVOS\n");
+							verificaBusca = buscarAtivos(cf, contFidelidade);
+
+						break;
+						case 2:
+							printf("\tCADASTROS INATIVOS\n");
+							verificaBusca = buscarInativos(cf, contFidelidade);
+
+						break;
+						case 3:
+							listarClientes(cf, contFidelidade);
+							verificaBusca = 1;
+						break;
+						default:
+							printOpInva();
+							opBusca = -1;
+						break;
+
+					}
+
+					if((opBusca == 1 || opBusca == 2 || opBusca == 3) && verificaBusca == 1){
+						printf("Para EDITAR digite 1 / Para SAIR digite 0\n");
+						scanf("%i", &opEdicao);
+						varrer();
+
+						if(opEdicao == 1){
+							buscaCPF(cf, contFidelidade);
+						}
+					}
+
+				}while(opBusca == -1);
+			break;
+
+			case 5:
+				limpar();
+				menuInicio();
+			break;
+
+			default:
+				printOpInva();
+			break;
+		}
+
+    }while(escolhaMenu != 0);
+
+    saindo();
+
+    return 0;
+}
