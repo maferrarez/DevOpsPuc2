@@ -29,7 +29,7 @@ struct salas{
 
 	////////////////////// FUNÇOES ////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	int verificaCadastroCPF(struct cadastroF cf[], char cpf[12] ,int cont){
+	int   (struct cadastroF cf[], char cpf[12] ,int cont){
 		int resp = 0, i;
 		for(i = 0; i < cont; i++){
 			if(strcmp(cf[i].cpf, cpf) == 0){
